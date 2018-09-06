@@ -1,0 +1,3 @@
+/vendor
+mig.config.php
+*.sql

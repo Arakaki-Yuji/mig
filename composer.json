@@ -1,0 +1,18 @@
+{
+    "name": "arakaki-yuji/mig",
+    "authors": [
+        {
+            "name": "Arakaki-Yuji",
+            "email": "arakaji0830@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^4.1"
+    },
+    "bin": [
+        "mig"
+    ],
+    "autoload": {
+        "psr-4": {"Mig\\": "src/"}
+    }
+}
