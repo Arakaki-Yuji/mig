@@ -1,5 +1,8 @@
 {
     "name": "arakaki-yuji/mig",
+    "type": "library",
+    "description": "Simple SQL migration.",
+    "license" : "MIT",
     "authors": [
         {
             "name": "Arakaki-Yuji",
@@ -7,10 +10,10 @@
         }
     ],
     "require": {
-        "symfony/console": "^3.4"
+        "symfony/console": "~3.4"
     },
     "bin": [
-        "mig"
+        "bin/mig"
     ],
     "autoload": {
         "psr-4": {"Mig\\": "src/"}
