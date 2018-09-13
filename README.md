@@ -68,6 +68,7 @@ Migrate migrations/20180907025457_create_user_table.up.sql
 Rollback the latest migration applied.
 
 ``` shell
+$ bin/mig rollback
 Rollback a migration.
 ======================
 
