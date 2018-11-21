@@ -40,9 +40,14 @@ class MigrateCommand extends Command
             $pdo = $core->make_pdo($config);
             $pdo->beginTransaction();
             try {
-                $pdo->exec($sql);
-                if($pdo->errorInfo()[2]){
-                    throw new \Exception('Failed to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
+                $queries = preg_split("/;\n/", $sql);
+                foreach($queries as $query){
+                    if(!empty($query)){
+                        $pdo->exec($query);
+                        if($pdo->errorInfo()[2]){
+                            throw new \Exception('Failed to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
+                        }
+                    }
                 }
                 $id = $core->get_timestamp($filename);
                 $this->update_last_migration_timestamp($pdo, $id);

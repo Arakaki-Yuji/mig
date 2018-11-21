@@ -41,10 +41,15 @@ class RollbackCommand extends Command
                 $pdo = $core->make_pdo($config);
                 $pdo->beginTransaction();
                 try {
-                    $pdo->exec($sql);
-                    if($pdo->errorInfo()[2])
-                    {
-                        throw new \Exception('Failed to run rollback '.$m . ': '.$pdo->errorInfo()[2]);
+                    $queries = preg_split("/;\n/", $sql);
+                    foreach($queries as $query){
+                        if(!empty($query)){
+                            $pdo->exec($query);
+                            if($pdo->errorInfo()[2])
+                            {
+                                throw new \Exception('Failed to run rollback '.$m . ': '.$pdo->errorInfo()[2]);
+                            }
+                        }
                     }
                     $this->delete_migration($pdo, $last_migration_id);
                     $pdo->commit();
