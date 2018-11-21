@@ -3,6 +3,7 @@
     "type": "library",
     "description": "Simple SQL migration.",
     "license" : "MIT",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Arakaki-Yuji",
