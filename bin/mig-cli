@@ -1,0 +1,4 @@
+#!/bin/bash
+# alias to mig
+d=`dirname $0`;
+"$d/mig" $1 $2;
