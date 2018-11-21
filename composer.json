@@ -14,7 +14,8 @@
         "symfony/console": "3.4.18"
     },
     "bin": [
-        "bin/mig"
+        "bin/mig",
+        "bin/mig-cli"
     ],
     "autoload": {
         "psr-4": {"Mig\\": "src/"}
