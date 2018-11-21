@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "symfony/console": "^4.1"
+        "symfony/console": "3.4.18"
     },
     "bin": [
         "bin/mig"
