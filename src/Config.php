@@ -55,7 +55,39 @@ class Config
 
     public function read_config()
     {
-        $c = require(WORKING_DIR. '/'. self::CONFIG_FILE_NAME);
-        return $c;
+        $config = [
+            'db_dsn' => '',
+            'db_username' => '',
+            'db_passwd' => '',
+            'migration_filepath' => ''
+        ];
+
+        /**
+         * set environment values
+         */
+        if(getenv('MIG_DB_DSN')){
+            $config['db_dsn'] = getenv('MIG_DB_DSN');
+        }
+        if(getenv('MIG_DB_USERNAME')){
+            $config['db_username'] = getenv('MIG_DB_USERNAME');
+        }
+        if(getenv('MIG_DB_PASSWD')){
+            $config['db_passwd'] = getenv('MIG_DB_PASSWD');
+        }
+        if(getenv('MIG_MIGRATION_FILEPATH')){
+            $config['migration_filepath'] = getenv('MIG_MIGRATION_FILEPATH');
+        }
+
+        $config_file = WORKING_DIR. '/'. self::CONFIG_FILE_NAME;
+        if(file_exists($config_file)){
+            $c = require($config_file);
+            if($c){
+                foreach(array_keys($c) as $k){
+                    $config[$k] = $c[$k];
+                }
+            }
+        }
+
+        return $config;
     }
 }
