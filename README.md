@@ -75,3 +75,19 @@ Rollback a migration.
 Rollback migrations/20180907025457_create_user_table.down.sql
 
 ```
+
+
+## Set config values by environment values
+
+if you want to set config values by environment values, you can do it.
+
+``` shell
+$ MIG_DB_DSN="mysql:host=127.0.0.1:3306;dbname=migrationdbname;" MIG_DB_USERNAME="admin" MIG_DB_PASSWD="password" MIG_MIGRATION_FILEPATH="migrations" bin/mig migrate
+Start migration.
+=================
+
+Migrate migrations/20180907025457_create_user_table.up.sql
+
+
+```
+
