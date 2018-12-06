@@ -4,7 +4,22 @@ Mig is a simple migration tool for SQL scripts, created by php.
 
 It was tested by only MySQL.
 
+
 ## Quickstart
+
+Install mig by composer global
+
+``` shell
+$ composer global require arakaki-yuji/mig
+```
+
+add execution path for composer to $PATH.
+
+``` shell
+$ export PATH=$PATH:$HOME/.composer/vendor/bin
+
+```
+
 
 Set mig.config.php to project root directory.
 
@@ -24,7 +39,7 @@ return [
 Run init command. it create migrations table.
 
 ``` shell
-$ bin/mig init
+$ mig-cli init
 ```
 
 
@@ -32,7 +47,7 @@ Create SQL scripts for migration.
 
 
 ``` shell
-$ bin/mig create create_user_table 
+$ mig-cli create create_user_table 
 Create a new migration file.
 =================
 
@@ -57,7 +72,7 @@ DROP TABLE IF EXISTS user;
 Apply pending migrations.
 
 ``` shell
-$ bin/mig migrate 
+$ mig-cli migrate 
 Start migration.
 =================
 
@@ -68,7 +83,7 @@ Migrate migrations/20180907025457_create_user_table.up.sql
 Rollback the latest migration applied.
 
 ``` shell
-$ bin/mig rollback
+$ mig-cli rollback
 Rollback a migration.
 ======================
 
