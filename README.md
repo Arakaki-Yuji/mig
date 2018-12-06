@@ -97,7 +97,7 @@ Rollback migrations/20180907025457_create_user_table.down.sql
 if you want to set config values by environment values, you can do it.
 
 ``` shell
-$ MIG_DB_DSN="mysql:host=127.0.0.1:3306;dbname=migrationdbname;" MIG_DB_USERNAME="admin" MIG_DB_PASSWD="password" MIG_MIGRATION_FILEPATH="migrations" bin/mig migrate
+$ MIG_DB_DSN="mysql:host=127.0.0.1:3306;dbname=migrationdbname;" MIG_DB_USERNAME="admin" MIG_DB_PASSWD="password" MIG_MIGRATION_FILEPATH="migrations" mig-cli migrate
 Start migration.
 =================
 
