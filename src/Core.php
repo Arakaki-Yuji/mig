@@ -113,4 +113,27 @@ class Core
         return $files_path;
     }
 
+    public function update_last_migration_timestamp(\PDO $pdo, $id)
+    {
+        if(!$id){
+            return false;
+        }
+        $sql = 'INSERT INTO migrations(id, applied_at) VALUES (:id, :applied_at)';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':applied_at', time());
+        return $stmt->execute();
+    }
+
+    public function delete_migration(\PDO $pdo, $id)
+    {
+        if(!$id){
+            return false;
+        }
+        $sql = 'DELETE FROM migrations WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        return $stmt->execute();
+    }
+
 }

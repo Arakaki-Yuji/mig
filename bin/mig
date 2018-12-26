@@ -33,6 +33,7 @@ use Mig\Command\CreateCommand;
 use Mig\Command\InitCommand;
 use Mig\Command\MigrateCommand;
 use Mig\Command\RollbackCommand;
+use Mig\Command\SkipCommand;
 
 define('WORKING_DIR', getcwd());
 
@@ -42,5 +43,6 @@ $app->add(new CreateCommand());
 $app->add(new InitCommand());
 $app->add(new MigrateCommand());
 $app->add(new RollbackCommand());
+$app->add(new SkipCommand());
 
 $app->run();
