@@ -50,7 +50,7 @@ class MigrateCommand extends Command
                     }
                 }
                 $id = $core->get_timestamp($filename);
-                $this->update_last_migration_timestamp($pdo, $id);
+                $core->update_last_migration_timestamp($pdo, $id);
                 $pdo->commit();
                 $output->writeln('Migrate '.$m);
             }catch(\Exception $e){
@@ -60,15 +60,4 @@ class MigrateCommand extends Command
         }
     }
 
-    private function update_last_migration_timestamp(\PDO $pdo, $id)
-    {
-        if(!$id){
-            return false;
-        }
-        $sql = 'INSERT INTO migrations(id, applied_at) VALUES (:id, :applied_at)';
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':id', $id);
-        $stmt->bindValue(':applied_at', time());
-        return $stmt->execute();
-    }
 }

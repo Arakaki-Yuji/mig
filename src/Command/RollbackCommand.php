@@ -51,7 +51,7 @@ class RollbackCommand extends Command
                             }
                         }
                     }
-                    $this->delete_migration($pdo, $last_migration_id);
+                    $core->delete_migration($pdo, $last_migration_id);
                     $pdo->commit();
                     $output->writeln('Rollback '.$m);
                 }catch(\Exception $e){
@@ -62,14 +62,4 @@ class RollbackCommand extends Command
         }
     }
 
-    private function delete_migration(\PDO $pdo, $id)
-    {
-        if(!$id){
-            return false;
-        }
-        $sql = 'DELETE FROM migrations WHERE id = :id';
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':id', $id);
-        return $stmt->execute();
-    }
 }
