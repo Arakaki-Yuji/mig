@@ -48,11 +48,18 @@ class Core
                 return false;
             }
         });
-        $migrations_didnot_run = array_filter($only_up_files, function($f) use ($migration_id){
+
+        $pdo = $this->make_pdo($config);
+        $already_ran_ids = $this->select_migration_id($pdo);
+        $migrations_didnot_run = array_filter($only_up_files, function($f) use ($already_ran_ids){
             $tmp = explode('/', $f);
             $fname = $tmp[count($tmp) - 1];
             $t = $this->get_timestamp($fname);
-            return (int)$t > (int) $migration_id;
+            if(in_array((string) $t, $already_ran_ids)){
+                return false;
+            }else{
+                return true;
+            };
         });
         return $migrations_didnot_run;
     }
@@ -134,6 +141,18 @@ class Core
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':id', $id);
         return $stmt->execute();
+    }
+
+    public function select_migration_id(\PDO $pdo)
+    {
+        $sql = 'SELECT id FROM migrations ORDER BY id ASC;';
+        $stmt = $pdo->query($sql);
+        $rows = $stmt->fetchAll();
+        $result = [];
+        foreach($rows as $row){
+            array_push($result, $row['id']);
+        }
+        return $result;
     }
 
 }
