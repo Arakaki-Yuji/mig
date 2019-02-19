@@ -42,7 +42,7 @@ class MigrateCommand extends Command
             try {
                 $queries = preg_split("/;\n/", $sql);
                 foreach($queries as $query){
-                    if(!empty($query)){
+                    if(!empty(trim($query))){
                         $pdo->exec($query);
                         if($pdo->errorInfo()[2]){
                             throw new \Exception('Failed to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
