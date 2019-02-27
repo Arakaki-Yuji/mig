@@ -16,6 +16,7 @@ class MigrateCommand extends Command
     {
         $this->setName('migrate')
             ->setDescription('Migrate scheme.');
+        $this->addArgument('option', InputArgument::OPTIONAL, 'migrate option.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -27,6 +28,12 @@ class MigrateCommand extends Command
             '=================',
             ''
         ]);
+        $skip_dep_exst = false;
+        $option = $input->getArgument('option');
+        if($option === 'skip-duplicate-and-exists-errors'){
+            $skip_dep_exst = true;
+        }
+
         $last_migration = $core->last_migration($core->make_pdo($config));
         $up_migrations = $core->list_migrations_doesnot_ran($config, $last_migration);
         foreach($up_migrations as $m)
@@ -45,7 +52,13 @@ class MigrateCommand extends Command
                     if(!empty(trim($query))){
                         $pdo->exec($query);
                         if($pdo->errorInfo()[2]){
-                            throw new \Exception('Failed to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
+                            $errMsg = $pdo->errorInfo()[2];
+                            if($this->is_duplicate_and_exist_error($errMsg) &&
+                               $skip_dep_exst){
+                                $output->writeln('Skipped to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
+                            }else{
+                                throw new \Exception('Failed to run the migration '. $m . ': '. $pdo->errorInfo()[2]);
+                            }
                         }
                     }
                 }
@@ -58,6 +71,24 @@ class MigrateCommand extends Command
                 throw $e;
             }
         }
+    }
+
+    public function is_duplicate_and_exist_error($errMsg)
+    {
+        $dup_column = '/^Duplicate column name/';
+        $dup_table = '/^Table.+already exists$/';
+        $dup_key = '/^Duplicate key name/';
+        $patterns = [
+            $dup_column,
+            $dup_table,
+            $dup_key
+        ];
+        foreach($patterns as $p){
+            if(preg_match($p, $errMsg) === 1){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
