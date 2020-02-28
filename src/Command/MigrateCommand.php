@@ -78,10 +78,12 @@ class MigrateCommand extends Command
         $dup_column = '/^Duplicate column name/';
         $dup_table = '/^Table.+already exists$/';
         $dup_key = '/^Duplicate key name/';
+        $dup_entry = '/^Duplicate entry/';
         $patterns = [
             $dup_column,
             $dup_table,
-            $dup_key
+            $dup_key,
+            $dup_entry
         ];
         foreach($patterns as $p){
             if(preg_match($p, $errMsg) === 1){
